@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>年轻时候的故事放一放</title>
+  <title>OAuth 2.0 | 年轻时候的故事放一放</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OAuth 2.0 协议定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密">
+  <meta name="description" content="定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密码不同。用户可以在登录授">
 <meta property="og:type" content="article">
-<meta property="og:title" content="年轻时候的故事放一放">
+<meta property="og:title" content="OAuth 2.0">
 <meta property="og:url" content="http://www.minevlog.club/2019/04/02/OAuth 2.0 协议/index.html">
 <meta property="og:site_name" content="年轻时候的故事放一放">
-<meta property="og:description" content="OAuth 2.0 协议定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密">
+<meta property="og:description" content="定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密码不同。用户可以在登录授">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-01T07:10:38.000Z">
+<meta property="og:updated_time" content="2019-04-28T05:58:39.737Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="年轻时候的故事放一放">
-<meta name="twitter:description" content="OAuth 2.0 协议定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密">
+<meta name="twitter:title" content="OAuth 2.0">
+<meta name="twitter:description" content="定义OAuth2.0（开放授权）是一个关于授权的开放的网络协议。 允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。  原理OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。 第三方应用登录授权层所用的令牌，与用户的密码不同。用户可以在登录授">
   
     <link rel="alternate" href="/atom.xml" title="年轻时候的故事放一放" type="application/atom+xml">
   
@@ -74,9 +74,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OAuth 2.0
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="OAuth-2-0-协议"><a href="#OAuth-2-0-协议" class="headerlink" title="OAuth 2.0 协议"></a>OAuth 2.0 协议</h1><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>OAuth2.0（开放授权）是一个关于<strong>授权</strong>的开放的网络协议。</p>
+        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>OAuth2.0（开放授权）是一个关于<strong>授权</strong>的开放的网络协议。</p>
 <p>允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。</p>
 <hr>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。</p>
@@ -101,7 +111,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.minevlog.club/2019/04/02/OAuth 2.0 协议/" data-id="cjv0ijxkb0001xwu6sa9kr8sy" class="article-share-link">Share</a>
+      <a data-url="http://www.minevlog.club/2019/04/02/OAuth 2.0 协议/" data-id="cjv0iwz5j0000xcu6681xx5ca" class="article-share-link">Share</a>
       
       
     </footer>
@@ -158,7 +168,7 @@
           </li>
         
           <li>
-            <a href="/2019/04/02/OAuth 2.0 协议/">(no title)</a>
+            <a href="/2019/04/02/OAuth 2.0 协议/">OAuth 2.0</a>
           </li>
         
       </ul>
