@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>年轻时候的故事放一放</title>
+  <title>Homebridge搭建 | 年轻时候的故事放一放</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Linux 下搭建HomeBridge服务前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available">
+  <meta name="description" content="前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available.Distributor ID:	Ubunt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="年轻时候的故事放一放">
+<meta property="og:title" content="Homebridge搭建">
 <meta property="og:url" content="http://www.minevlog.club/2019/04/02/Linux 下搭建HomeBridge服务/index.html">
 <meta property="og:site_name" content="年轻时候的故事放一放">
-<meta property="og:description" content="Linux 下搭建HomeBridge服务前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available">
+<meta property="og:description" content="前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available.Distributor ID:	Ubunt">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-28T07:23:46.596Z">
+<meta property="og:updated_time" content="2019-04-28T07:26:44.839Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="年轻时候的故事放一放">
-<meta name="twitter:description" content="Linux 下搭建HomeBridge服务前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available">
+<meta name="twitter:title" content="Homebridge搭建">
+<meta name="twitter:description" content="前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。 1、准备环境系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117  123456root@aml:~# lsb_release -aNo LSB modules are available.Distributor ID:	Ubunt">
   
     <link rel="alternate" href="/atom.xml" title="年轻时候的故事放一放" type="application/atom+xml">
   
@@ -74,10 +74,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Homebridge搭建
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="Linux-下搭建HomeBridge服务"><a href="#Linux-下搭建HomeBridge服务" class="headerlink" title="Linux 下搭建HomeBridge服务"></a>Linux 下搭建HomeBridge服务</h2><p>前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。</p>
+        <p>前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。</p>
 <h2 id="1、准备环境"><a href="#1、准备环境" class="headerlink" title="1、准备环境"></a>1、准备环境</h2><p>系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117</p>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 18.04.1 LTS</span><br><span class="line">Release:	18.04</span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
 <h2 id="2、安装NodeJs"><a href="#2、安装NodeJs" class="headerlink" title="2、安装NodeJs"></a>2、安装NodeJs</h2><h3 id="2-1-Xshell-连接服务器，并更新软件源"><a href="#2-1-Xshell-连接服务器，并更新软件源" class="headerlink" title="2.1 Xshell 连接服务器，并更新软件源"></a>2.1 Xshell 连接服务器，并更新软件源</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt update</span><br><span class="line">root@aml:~# sudo apt upgrade</span><br></pre></td></tr></table></figure>
@@ -112,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.minevlog.club/2019/04/02/Linux 下搭建HomeBridge服务/" data-id="cjv0lya7t0000kgu6faqsftv9" class="article-share-link">Share</a>
+      <a data-url="http://www.minevlog.club/2019/04/02/Linux 下搭建HomeBridge服务/" data-id="cjv0m2j50000000u6y9f3cnpb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -169,7 +178,7 @@
           </li>
         
           <li>
-            <a href="/2019/04/02/Linux 下搭建HomeBridge服务/">(no title)</a>
+            <a href="/2019/04/02/Linux 下搭建HomeBridge服务/">Homebridge搭建</a>
           </li>
         
       </ul>
