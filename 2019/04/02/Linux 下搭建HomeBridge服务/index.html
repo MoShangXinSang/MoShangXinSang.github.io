@@ -5,13 +5,17 @@
   
   <title>年轻时候的故事放一放</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Linux 下搭建HomeBridge服务 前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。  1、准备环境 系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117 1234567&amp;gt; root@aml:~# lsb_release -a&amp;gt; No LSB modules">
+<meta property="og:type" content="article">
 <meta property="og:title" content="年轻时候的故事放一放">
-<meta property="og:url" content="http://www.minevlog.club/index.html">
+<meta property="og:url" content="http://www.minevlog.club/2019/04/02/Linux 下搭建HomeBridge服务/index.html">
 <meta property="og:site_name" content="年轻时候的故事放一放">
+<meta property="og:description" content="Linux 下搭建HomeBridge服务 前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。  1、准备环境 系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117 1234567&amp;gt; root@aml:~# lsb_release -a&amp;gt; No LSB modules">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-28T07:13:40.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="年轻时候的故事放一放">
+<meta name="twitter:description" content="Linux 下搭建HomeBridge服务 前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。  1、准备环境 系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117 1234567&amp;gt; root@aml:~# lsb_release -a&amp;gt; No LSB modules">
   
     <link rel="alternate" href="/atom.xml" title="年轻时候的故事放一放" type="application/atom+xml">
   
@@ -60,66 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-OAuth 2.0 协议" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/02/OAuth 2.0 协议/" class="article-date">
-  <time datetime="2019-04-02T02:28:20.386Z" itemprop="datePublished">2019-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/02/OAuth 2.0 协议/">OAuth 2.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>OAuth2.0（开放授权）是一个关于<strong>授权</strong>的开放的网络协议。</p>
-<p>允许用户让第三方应用访问该用户在某一网站上存储的的资源（如：照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。</p>
-<hr>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>OAuth在第三方应用与服务提供商之间设置了一个授权层。第三方应用不能直接登录服务提供商，只能登录授权层，以此将用户与客户端区分开来。</p>
-<p>第三方应用登录授权层所用的令牌，与用户的密码不同。用户可以在登录授权的时候，指定授权层令牌的权限范围和有效期。 </p>
-<p>第三方应用登录授权层以后，服务提供商根据令牌的权限范围和有效期，向第三方应用开放用户资源。</p>
-<hr>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>（A）用户打开客户端以后，客户端要求用户给予授权。</p>
-<p>（B）用户同意给予客户端授权。</p>
-<p>（C）客户端使用上一步获得的授权，向认证服务器申请令牌。</p>
-<p>（D）认证服务器对客户端进行认证以后，确认无误，同意发放令牌。</p>
-<p>（E）客户端使用令牌，向资源服务器申请获取资源。</p>
-<p>（F）资源服务器确认令牌无误，同意向客户端开放资源</p>
-<hr>
-<h3 id="客户端授权模式"><a href="#客户端授权模式" class="headerlink" title="客户端授权模式"></a>客户端授权模式</h3><p>客户端必须得到用户的授权（authorization grant），才能获得令牌（access token）。OAuth 2.0定义了四种授权方式。</p>
-<ul>
-<li>授权码模式（authorization code）</li>
-<li>简化模式（implicit）</li>
-<li>密码模式（resource owner password credentials）</li>
-<li>客户端模式（client credentials）</li>
-</ul>
-<h3 id="授权码模式"><a href="#授权码模式" class="headerlink" title="授权码模式"></a>授权码模式</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.minevlog.club/2019/04/02/OAuth 2.0 协议/" data-id="cjv0lmyzb0001oou6xzeo0sc3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux 下搭建HomeBridge服务" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Linux 下搭建HomeBridge服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/02/Linux 下搭建HomeBridge服务/" class="article-date">
   <time datetime="2019-04-02T02:27:07.135Z" itemprop="datePublished">2019-04-02</time>
@@ -191,10 +136,23 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/02/OAuth 2.0 协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          OAuth 2.0
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
+</article>
 
 </section>
         
