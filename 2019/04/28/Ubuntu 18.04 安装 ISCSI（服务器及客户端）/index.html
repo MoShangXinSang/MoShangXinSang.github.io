@@ -3,20 +3,20 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>年轻时候的故事放一放</title>
+  <title>Ubuntu18.04配置iscsi服务器及客户端 | 年轻时候的故事放一放</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: Ubuntu18.04配置iscsi服务器及客户端1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI">
+  <meta name="description" content="1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="年轻时候的故事放一放">
+<meta property="og:title" content="Ubuntu18.04配置iscsi服务器及客户端">
 <meta property="og:url" content="http://www.minevlog.club/2019/04/28/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/index.html">
 <meta property="og:site_name" content="年轻时候的故事放一放">
-<meta property="og:description" content="title: Ubuntu18.04配置iscsi服务器及客户端1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI">
+<meta property="og:description" content="1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://www.minevlog.club/2019/04/28/Ubuntu%2018.04%20安装%20ISCSI（服务器及客户端）/1553781849819.png">
-<meta property="og:updated_time" content="2019-04-29T00:43:02.794Z">
+<meta property="og:updated_time" content="2019-04-29T00:46:54.548Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="年轻时候的故事放一放">
-<meta name="twitter:description" content="title: Ubuntu18.04配置iscsi服务器及客户端1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI">
+<meta name="twitter:title" content="Ubuntu18.04配置iscsi服务器及客户端">
+<meta name="twitter:description" content="1、Preface使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong) 2、What is ISCSI ？ 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的">
 <meta name="twitter:image" content="http://www.minevlog.club/2019/04/28/Ubuntu%2018.04%20安装%20ISCSI（服务器及客户端）/1553781849819.png">
   
     <link rel="alternate" href="/atom.xml" title="年轻时候的故事放一放" type="application/atom+xml">
@@ -76,10 +76,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu18.04配置iscsi服务器及客户端
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-Ubuntu18-04配置iscsi服务器及客户端"><a href="#title-Ubuntu18-04配置iscsi服务器及客户端" class="headerlink" title="title: Ubuntu18.04配置iscsi服务器及客户端"></a>title: Ubuntu18.04配置iscsi服务器及客户端</h2><h3 id="1、Preface"><a href="#1、Preface" class="headerlink" title="1、Preface"></a>1、Preface</h3><p>使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong)</p>
+        <h3 id="1、Preface"><a href="#1、Preface" class="headerlink" title="1、Preface"></a>1、Preface</h3><p>使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong)</p>
 <h3 id="2、What-is-ISCSI-？"><a href="#2、What-is-ISCSI-？" class="headerlink" title="2、What is ISCSI ？"></a>2、What is ISCSI ？</h3><ul>
 <li>一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的客户端，如此便能透过 iSCSI 协议来进行磁盘的应用了。<h3 id="3、Framework"><a href="#3、Framework" class="headerlink" title="3、Framework"></a>3、Framework</h3></li>
 <li><p>iSCSI target：就是储存设备端，存放磁盘或 RAID 的设备。</p>
@@ -105,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.minevlog.club/2019/04/28/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" data-id="cjv1n41fm0002k8u6lq66n0m3" class="article-share-link">Share</a>
+      <a data-url="http://www.minevlog.club/2019/04/28/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" data-id="cjv1n8i730002wwu6e8lmnkll" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +163,7 @@
       <ul>
         
           <li>
-            <a href="/2019/04/28/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/">(no title)</a>
+            <a href="/2019/04/28/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/">Ubuntu18.04配置iscsi服务器及客户端</a>
           </li>
         
           <li>
