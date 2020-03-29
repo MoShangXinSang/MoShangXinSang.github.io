@@ -176,104 +176,6 @@
             
 
   
-    <article id="post-Ubuntu 18.04 安装 ISCSI（服务器及客户端）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" target="_blank">Ubuntu18.04配置iscsi服务器及客户端</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" class="archive-article-date">
-        <time datetime="2019-10-16T13:45:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-16</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h3 id="1、Preface"><a href="#1、Preface" class="headerlink" title="1、Preface"></a>1、Preface</h3><p>使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong)</p>
-<h3 id="2、What-is-ISCSI-？"><a href="#2、What-is-ISCSI-？" class="headerlink" title="2、What is ISCSI ？"></a>2、What is ISCSI ？</h3><ul>
-<li>一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的客户端，如此便能透过 iSCSI 协议来进行磁盘的应用了。<h3 id="3、Framework"><a href="#3、Framework" class="headerlink" title="3、Framework"></a>3、Framework</h3></li>
-<li><p>iSCSI target：就是储存设备端，存放磁盘或 RAID 的设备。</p>
-</li>
-<li><p>iSCSI initiator：能够使用 target 的客户端。 想要连接到 iSCSI target 的服务器，也必须要安装 iSCSI initiator 的相关功能后才能够使用 iSCSI target 提供的磁盘。</p>
-</li>
-</ul>
-<h3 id="4、Environment-description"><a href="#4、Environment-description" class="headerlink" title="4、Environment description"></a>4、Environment description</h3><p><img src="./1553781849819.png" alt="Alt text"><br>注意事项：安装系统完成后请查看一下系统内核是否支持ISCSI<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# cat /boot/config-*|grep ISCSI </span><br><span class="line">CONFIG_SCSI_ISCSI_ATTRS=m</span><br><span class="line">CONFIG_ISCSI_TCP=m</span><br><span class="line">CONFIG_ISCSI_BOOT_SYSFS=m</span><br><span class="line">CONFIG_ISCSI_TARGET=m</span><br></pre></td></tr></table></figure></p>
-<h3 id="5、Configure-iSCSI-Target"><a href="#5、Configure-iSCSI-Target" class="headerlink" title="5、Configure iSCSI Target"></a>5、Configure iSCSI Target</h3><h4 id="5-1-Install-administration-tools"><a href="#5-1-Install-administration-tools" class="headerlink" title="5.1 Install administration tools"></a>5.1 Install administration tools</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# apt -y install tgt</span><br></pre></td></tr></table></figure>
-<h4 id="5-2-Configure-iSCSI-Target"><a href="#5-2-Configure-iSCSI-Target" class="headerlink" title="5.2 Configure iSCSI Target"></a>5.2 Configure iSCSI Target</h4><ul>
-<li><p>创建disk-image</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 如使用外接移动硬盘，请创建完/var/lib/iscsi_disks路径后挂载到此路径</span><br><span class="line"># 挂载命令：mount /dev/sda1 /var/lib/iscsi_disks</span><br><span class="line">root@N1-92:~# mkdir /var/lib/iscsi_disks</span><br><span class="line">root@N1-92:~# dd if=/dev/zero of=/var/lib/iscsi_disks/disk01.img count=0 bs=1 seek=100G</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建Target</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# vim /etc/tgt/conf.d/target01.conf</span><br><span class="line"># naming rule : [ iqn.(year)-(month).(reverse of domain name)</span><br><span class="line">&lt;target iqn.2019-03.club.minevlog:dlp.target01&gt;    </span><br><span class="line">    backing-store /var/lib/iscsi_disks/disk01.img  </span><br><span class="line">    initiator-name iqn.2019-03.club.minevlog:www.initiator01   </span><br><span class="line">    incominguser username password</span><br><span class="line">&lt;/target&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# systemctl restart tgt</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="6、Configure-iSCSI-Initiator"><a href="#6、Configure-iSCSI-Initiator" class="headerlink" title="6、Configure iSCSI Initiator"></a>6、Configure iSCSI Initiator</h3><h4 id="6-1-安装客户端"><a href="#6-1-安装客户端" class="headerlink" title="6.1 安装客户端"></a>6.1 安装客户端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# apt -y install open-iscsi</span><br><span class="line">root@N1-53:~# vi /etc/iscsi/initiatorname.iscsi</span><br><span class="line"># 这里是你设置的ISCSI Target Server地址</span><br><span class="line">InitiatorName=iqn.2019-03.club.minevlog:www.initiator01</span><br><span class="line"></span><br><span class="line">root@N1-53:~# vi /etc/iscsi/iscsid.conf</span><br><span class="line"># line 56: uncomment</span><br><span class="line">node.session.auth.authmethod = CHAP</span><br><span class="line"># line 60,61: uncomment and specify the username and password you set on the iSCSI target</span><br><span class="line">node.session.auth.username = username</span><br><span class="line">node.session.auth.password = password</span><br><span class="line"></span><br><span class="line"># restart server</span><br><span class="line">root@N1-53:~# systemctl restart iscsid open-iscsi</span><br><span class="line"></span><br><span class="line"># discover target</span><br><span class="line">root@N1-53:~# iscsiadm -m discovery -t sendtargets -p 192.168.123.75</span><br><span class="line">192.168.123.75,1 iqn.2019-03.club.minevlog:dlp.target01</span><br><span class="line"></span><br><span class="line"># login to the target</span><br><span class="line">root@N1-53:~# iscsiadm -m node --login </span><br><span class="line">Logging in to [iface: default, target: iqn.2019-03.club.minevlog:dlp.target01, portal: 192.168.123.75,3260] (multiple)</span><br><span class="line">Login to [iface: default, target: iqn.2019-03.club.minevlog:dlp.target01, portal: 192.168.123.75,3260] successful.</span><br><span class="line"></span><br><span class="line"># confirm the established session</span><br><span class="line">root@N1-53:~# iscsiadm -m session -o show </span><br><span class="line">tcp: [1] 192.168.123.75:3260,1 iqn.2019-03.club.minevlog:dlp.target01 (non-flash)</span><br></pre></td></tr></table></figure>
-<h4 id="6-2-客户端上卸载指定目标"><a href="#6-2-客户端上卸载指定目标" class="headerlink" title="6.2 客户端上卸载指定目标"></a>6.2 客户端上卸载指定目标</h4><p>先卸载所有挂载上iscsi硬盘分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# iscsiadm -m node --targetname &quot;iqn.2019-03.club.minevlog:dlp.target01&quot; --portal &quot;192.168.123.75:3260&quot; --logout</span><br></pre></td></tr></table></figure></p>
-<p>删除记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# iscsiadm -m discovery --portal &quot;192.168.123.75:3260&quot; --op=delete</span><br></pre></td></tr></table></figure></p>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Linux 下搭建HomeBridge服务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -474,6 +376,105 @@
 
 
   
+    <article id="post-Ubuntu 18.04 安装 ISCSI（服务器及客户端）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" target="_blank">ubuntu18.04配置iscsi服务器及客户端</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/" class="archive-article-date">
+        <time datetime="2019-10-16T13:45:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-16</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h3 id="1、前言"><a href="#1、前言" class="headerlink" title="1、前言"></a>1、前言</h3><p>使用ISCSI技术给每台服务器挂载虚拟硬盘(Qiong)</p>
+<h3 id="2、什么是ISCSI-？"><a href="#2、什么是ISCSI-？" class="headerlink" title="2、什么是ISCSI ？"></a>2、什么是ISCSI ？</h3><p> 一种块级网络文件系统。iSCSI 主要是透过 TCP/IP 的技术，将储存设备端透过 iSCSI target (iSCSI 目标) 功能，做成可以提供磁盘的服务器端，再透过 iSCSI initiator (iSCSI 初始化用户) 功能，做成能够挂载使用 iSCSI target 的客户端，如此便能透过 iSCSI 协议来进行磁盘的应用了。</p>
+<h3 id="3、Framework"><a href="#3、Framework" class="headerlink" title="3、Framework"></a>3、Framework</h3><ul>
+<li><p>iSCSI target：就是储存设备端，存放磁盘或 RAID 的设备。</p>
+</li>
+<li><p>iSCSI initiator：能够使用 target 的客户端。 想要连接到 iSCSI target 的服务器，也必须要安装 iSCSI initiator 的相关功能后才能够使用 iSCSI target 提供的磁盘。</p>
+</li>
+</ul>
+<h3 id="4、实验环境说明"><a href="#4、实验环境说明" class="headerlink" title="4、实验环境说明"></a>4、实验环境说明</h3><p>192.168.123.92 iSCSI Target 系统：ubuntu18.04<br>192.168.123.53 iSCSI Initiator 系统：ubuntu18.04</p>
+<p>Tips：安装系统完成后请查看一下系统内核是否支持ISCSI<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# cat /boot/config-*|grep ISCSI </span><br><span class="line">CONFIG_SCSI_ISCSI_ATTRS=m</span><br><span class="line">CONFIG_ISCSI_TCP=m</span><br><span class="line">CONFIG_ISCSI_BOOT_SYSFS=m</span><br><span class="line">CONFIG_ISCSI_TARGET=m</span><br></pre></td></tr></table></figure></p>
+<h3 id="5、配置iSCSI-Target"><a href="#5、配置iSCSI-Target" class="headerlink" title="5、配置iSCSI Target"></a>5、配置iSCSI Target</h3><h4 id="5-1-安装administration-tools"><a href="#5-1-安装administration-tools" class="headerlink" title="5.1 安装administration tools"></a>5.1 安装administration tools</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# apt -y install tgt</span><br></pre></td></tr></table></figure>
+<h4 id="5-2-Configure-iSCSI-Target"><a href="#5-2-Configure-iSCSI-Target" class="headerlink" title="5.2 Configure iSCSI Target"></a>5.2 Configure iSCSI Target</h4><ul>
+<li><p>创建disk-image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 如使用外接移动硬盘，请创建完/var/lib/iscsi_disks路径后挂载到此路径</span><br><span class="line"># 挂载命令：mount /dev/sda1 /var/lib/iscsi_disks</span><br><span class="line">root@N1-92:~# mkdir /var/lib/iscsi_disks</span><br><span class="line">root@N1-92:~# dd if=/dev/zero of=/var/lib/iscsi_disks/disk01.img count=0 bs=1 seek=100G</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Target</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# vim /etc/tgt/conf.d/target01.conf</span><br><span class="line"># naming rule : [ iqn.(year)-(month).(reverse of domain name)</span><br><span class="line">&lt;target iqn.2019-03.club.minevlog:dlp.target01&gt;    </span><br><span class="line">    backing-store /var/lib/iscsi_disks/disk01.img  </span><br><span class="line">    initiator-name iqn.2019-03.club.minevlog:www.initiator01   </span><br><span class="line">    incominguser username password</span><br><span class="line">&lt;/target&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-92:~# systemctl restart tgt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="6、配置iSCSI-Initiator"><a href="#6、配置iSCSI-Initiator" class="headerlink" title="6、配置iSCSI Initiator"></a>6、配置iSCSI Initiator</h3><h4 id="6-1-安装客户端"><a href="#6-1-安装客户端" class="headerlink" title="6.1 安装客户端"></a>6.1 安装客户端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# apt -y install open-iscsi</span><br><span class="line">root@N1-53:~# vi /etc/iscsi/initiatorname.iscsi</span><br><span class="line"># 这里是你设置的ISCSI Target Server地址</span><br><span class="line">InitiatorName=iqn.2019-03.club.minevlog:www.initiator01</span><br><span class="line"></span><br><span class="line">root@N1-53:~# vi /etc/iscsi/iscsid.conf</span><br><span class="line"># line 56: uncomment</span><br><span class="line">node.session.auth.authmethod = CHAP</span><br><span class="line"># line 60,61: uncomment and specify the username and password you set on the iSCSI target</span><br><span class="line">node.session.auth.username = username</span><br><span class="line">node.session.auth.password = password</span><br><span class="line"></span><br><span class="line"># 重启客户端</span><br><span class="line">root@N1-53:~# systemctl restart iscsid open-iscsi</span><br><span class="line"></span><br><span class="line"># 发现 target</span><br><span class="line">root@N1-53:~# iscsiadm -m discovery -t sendtargets -p 192.168.123.75</span><br><span class="line">192.168.123.75,1 iqn.2019-03.club.minevlog:dlp.target01</span><br><span class="line"></span><br><span class="line"># 登录 target</span><br><span class="line">root@N1-53:~# iscsiadm -m node --login </span><br><span class="line">Logging in to [iface: default, target: iqn.2019-03.club.minevlog:dlp.target01, portal: 192.168.123.75,3260] (multiple)</span><br><span class="line">Login to [iface: default, target: iqn.2019-03.club.minevlog:dlp.target01, portal: 192.168.123.75,3260] successful.</span><br><span class="line"></span><br><span class="line"># 确认 session</span><br><span class="line">root@N1-53:~# iscsiadm -m session -o show </span><br><span class="line">tcp: [1] 192.168.123.75:3260,1 iqn.2019-03.club.minevlog:dlp.target01 (non-flash)</span><br></pre></td></tr></table></figure>
+<h4 id="6-2-客户端上卸载指定目标"><a href="#6-2-客户端上卸载指定目标" class="headerlink" title="6.2 客户端上卸载指定目标"></a>6.2 客户端上卸载指定目标</h4><p>先卸载所有挂载上iscsi硬盘分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# iscsiadm -m node --targetname &quot;iqn.2019-03.club.minevlog:dlp.target01&quot; --portal &quot;192.168.123.92:3260&quot; --logout</span><br></pre></td></tr></table></figure></p>
+<p>删除记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@N1-53:~# iscsiadm -m discovery --portal &quot;192.168.123.92:3260&quot; --op=delete</span><br></pre></td></tr></table></figure></p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
@@ -484,7 +485,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 minevlog
+    		&copy; 2019-2020 minevlog
     	</div>
       	<div class="footer-right">
 			
