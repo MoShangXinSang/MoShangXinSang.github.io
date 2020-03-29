@@ -176,111 +176,6 @@
             
 
   
-    <article id="post-Linux 下搭建HomeBridge服务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2019/10/16/Linux 下搭建HomeBridge服务/" target="_blank">Homebridge搭建</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/16/Linux 下搭建HomeBridge服务/" class="archive-article-date">
-        <time datetime="2019-10-16T13:45:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-16</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。</p>
-<h2 id="1、准备环境"><a href="#1、准备环境" class="headerlink" title="1、准备环境"></a>1、准备环境</h2><p>系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 18.04.1 LTS</span><br><span class="line">Release:	18.04</span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
-<h2 id="2、安装NodeJs"><a href="#2、安装NodeJs" class="headerlink" title="2、安装NodeJs"></a>2、安装NodeJs</h2><h3 id="2-1-Xshell-连接服务器，并更新软件源"><a href="#2-1-Xshell-连接服务器，并更新软件源" class="headerlink" title="2.1 Xshell 连接服务器，并更新软件源"></a>2.1 Xshell 连接服务器，并更新软件源</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt update</span><br><span class="line">root@aml:~# sudo apt upgrade</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-运行指令"><a href="#2-2-运行指令" class="headerlink" title="2.2  运行指令"></a>2.2  运行指令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt install -y nodejs</span><br></pre></td></tr></table></figure>
-<h3 id="2-3-安装依赖包"><a href="#2-3-安装依赖包" class="headerlink" title="2.3 安装依赖包"></a>2.3 安装依赖包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt install -y avahi-daemon avahi-discover libnss-mdns libavahi-compat-libdnssd-dev g++ gcc</span><br></pre></td></tr></table></figure>
-<h3 id="2-4-确认安装情况并创建软链接"><a href="#2-4-确认安装情况并创建软链接" class="headerlink" title="2.4 确认安装情况并创建软链接"></a>2.4 确认安装情况并创建软链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# ln -s /usr/bin/nodejs /usr/bin/node  </span><br><span class="line"><span class="meta">#</span> 注意，上面步骤出现错误提示file exist请忽略</span><br><span class="line">root@aml:~# nodejs -v</span><br><span class="line">v8.10.0</span><br><span class="line">root@aml:~# node -v</span><br><span class="line">v8.10.0</span><br><span class="line">root@aml:~# npm -v</span><br><span class="line">3.5.2</span><br></pre></td></tr></table></figure>
-<h3 id="2-5-NodeJs安装完成"><a href="#2-5-NodeJs安装完成" class="headerlink" title="2.5 NodeJs安装完成"></a>2.5 NodeJs安装完成</h3><p><strong>1.如何查找node_modules目录</strong></p>
-<p><code>root@aml:~# npm -g root</code></p>
-<p><strong>2.将nodejs与npm升级到最新版本</strong></p>
-<p><code>root@aml:~# sudo npm install -g n</code></p>
-<h1 id="3-安装HomeBridge"><a href="#3-安装HomeBridge" class="headerlink" title="3 安装HomeBridge"></a>3 安装HomeBridge</h1><h3 id="3-1-安装服务并运行，查看是否正常"><a href="#3-1-安装服务并运行，查看是否正常" class="headerlink" title="3.1 安装服务并运行，查看是否正常"></a>3.1 安装服务并运行，查看是否正常</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g --unsafe-perm homebridge</span><br><span class="line">root@aml:~# homebridge</span><br></pre></td></tr></table></figure>
-<h3 id="3-2-创建config-json"><a href="#3-2-创建config-json" class="headerlink" title="3.2 创建config.json"></a>3.2 创建config.json</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# cd /root/.homebridge/</span><br><span class="line">具体配置见config.json文件</span><br></pre></td></tr></table></figure>
-<h1 id="4-关联小米米家智能设备"><a href="#4-关联小米米家智能设备" class="headerlink" title="4 关联小米米家智能设备"></a>4 关联小米米家智能设备</h1><h3 id="4-1-获取米家智能设备token"><a href="#4-1-获取米家智能设备token" class="headerlink" title="4.1 获取米家智能设备token"></a>4.1 获取米家智能设备token</h3><p>1.安卓手机<br>2.电脑<br>3.脑子（不能是空的）</p>
-<ul>
-<li>第零步，获取root权限</li>
-<li>第一步，安装米家app并登录账号（使用5.0.19版本的米家）</li>
-<li>第二步，进入/data/data/com.xiaomi.smarthome/databases/</li>
-<li>第三步，拷贝miio2.db，下载到电脑</li>
-<li>第四步，前往网站<a href="https://miio.loli.ren/indexCN.php" target="_blank" rel="noopener">GetMiio</a>，上传miio2.db，点击提交，即可获得token。</li>
-</ul>
-<h3 id="4-2-安装miio到HomeBridge"><a href="#4-2-安装miio到HomeBridge" class="headerlink" title="4.2 安装miio到HomeBridge"></a>4.2 安装miio到HomeBridge</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g miio@0.14.1</span><br></pre></td></tr></table></figure>
-<p><strong>注：请使用<a href="mailto:miio@0.14.1" target="_blank" rel="noopener">miio@0.14.1</a>版本！</strong></p>
-<h3 id="4-3-接入YeeLight彩光灯泡"><a href="#4-3-接入YeeLight彩光灯泡" class="headerlink" title="4.3 接入YeeLight彩光灯泡"></a>4.3 接入YeeLight彩光灯泡</h3><h4 id="4-3-1-安装插件homebridge-re-yeelight"><a href="#4-3-1-安装插件homebridge-re-yeelight" class="headerlink" title="4.3.1 安装插件homebridge-re-yeelight"></a>4.3.1 安装插件homebridge-re-yeelight</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g homebridge-re-yeelight</span><br></pre></td></tr></table></figure>
-<h4 id="4-3-2-配置config-json文件"><a href="#4-3-2-配置config-json文件" class="headerlink" title="4.3.2 配置config.json文件"></a>4.3.2 配置config.json文件</h4><p>见具体配置文件</p>
-<h3 id="4-4-接入米家智能插座"><a href="#4-4-接入米家智能插座" class="headerlink" title="4.4 接入米家智能插座"></a>4.4 接入米家智能插座</h3><h4 id="4-4-1-安装插件homebridge-mi-outlet"><a href="#4-4-1-安装插件homebridge-mi-outlet" class="headerlink" title="4.4.1 安装插件homebridge-mi-outlet"></a>4.4.1 安装插件homebridge-mi-outlet</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g homebridge-mi-outlet</span><br></pre></td></tr></table></figure>
-<h4 id="4-4-2-配置config-json文件"><a href="#4-4-2-配置config-json文件" class="headerlink" title="4.4.2 配置config.json文件"></a>4.4.2 配置config.json文件</h4><p>见具体配置文件</p>
-<h1 id="5-启动服务"><a href="#5-启动服务" class="headerlink" title="5 启动服务"></a>5 启动服务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 后台启动</span><br><span class="line">root@aml:~# homebridge &amp;</span><br><span class="line">Ctrl-d断开ssh连接</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 重新连接登录并查看服务是否正常运行中</span><br><span class="line">root@aml:~# ps -aux | grep homebridge</span><br><span class="line">root     17196  2.2  2.5 1196316 48308 ?       Sl   01:55   0:10 homebridge</span><br><span class="line">root     17708  0.0  0.0   4376   628 pts/4    S+   02:03   0:00 grep --color=auto homebridge</span><br></pre></td></tr></table></figure>
-<h1 id="6-添加设备到HomeKit"><a href="#6-添加设备到HomeKit" class="headerlink" title="6 添加设备到HomeKit"></a>6 添加设备到HomeKit</h1><p>第五步运行<code>homebridge &amp;</code>时，服务成功启动之后会出现HomeKit可识别到的二维码。打开iphone或ipad上<strong>家庭app</strong>添加设备，扫描二维码即可。</p>
-<h1 id="7-参考网站链接"><a href="#7-参考网站链接" class="headerlink" title="7 参考网站链接"></a>7 参考网站链接</h1><p>文章参考：<a href="https://homekit.loli.ren/docs/show/2" target="_blank" rel="noopener">https://homekit.loli.ren/docs/show/2</a> </p>
-<p>miio数据库解析：<a href="https://miio.loli.ren/indexCN.php" target="_blank" rel="noopener">https://miio.loli.ren/indexCN.php</a>  </p>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/16/Linux 下搭建HomeBridge服务/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-OAuth 2.0 协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -446,6 +341,109 @@
     
     <p class="article-more-link">
       <a class="article-more-a" href="/2019/10/16/Ubuntu 18.04 安装 ISCSI（服务器及客户端）/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-homebridge搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/10/16/homebridge搭建/" target="_blank">Homebridge搭建</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/10/16/homebridge搭建/" class="archive-article-date">
+        <time datetime="2019-10-16T13:45:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-16</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>前言：虽然米家app已经支持通过iphone捷径呼唤siri控制智能设备的操作。。。</p>
+<h2 id="1、准备环境"><a href="#1、准备环境" class="headerlink" title="1、准备环境"></a>1、准备环境</h2><p>系统：Armbian_5.67_Aml-s9xxx_Ubuntu_bionic_default_4.19.0-rc7_20181117</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 18.04.1 LTS</span><br><span class="line">Release:	18.04</span><br><span class="line">Codename:	bionic</span><br></pre></td></tr></table></figure>
+<h2 id="2、安装nodejs"><a href="#2、安装nodejs" class="headerlink" title="2、安装nodejs"></a>2、安装nodejs</h2><h3 id="2-1-SSH连接服务器，并更新软件源"><a href="#2-1-SSH连接服务器，并更新软件源" class="headerlink" title="2.1 SSH连接服务器，并更新软件源"></a>2.1 SSH连接服务器，并更新软件源</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt update</span><br><span class="line">root@aml:~# sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-运行指令"><a href="#2-2-运行指令" class="headerlink" title="2.2  运行指令"></a>2.2  运行指令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt install -y nodejs</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-安装依赖包"><a href="#2-3-安装依赖包" class="headerlink" title="2.3 安装依赖包"></a>2.3 安装依赖包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# sudo apt install -y avahi-daemon avahi-discover libnss-mdns libavahi-compat-libdnssd-dev g++ gcc</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-确认安装情况并创建软链接"><a href="#2-4-确认安装情况并创建软链接" class="headerlink" title="2.4 确认安装情况并创建软链接"></a>2.4 确认安装情况并创建软链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# ln -s /usr/bin/nodejs /usr/bin/node  </span><br><span class="line"><span class="meta">#</span> 注意，上面步骤出现错误提示file exist请忽略</span><br><span class="line">root@aml:~# nodejs -v</span><br><span class="line">v8.10.0</span><br><span class="line">root@aml:~# node -v</span><br><span class="line">v8.10.0</span><br><span class="line">root@aml:~# npm -v</span><br><span class="line">3.5.2</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-nodejs安装完成"><a href="#2-5-nodejs安装完成" class="headerlink" title="2.5 nodejs安装完成"></a>2.5 nodejs安装完成</h3><p><strong>1.如何查找node_modules目录</strong></p>
+<p><code>root@aml:~# npm -g root</code></p>
+<p><strong>2.将nodejs与npm升级到最新版本</strong></p>
+<p><code>root@aml:~# sudo npm install -g n</code></p>
+<h1 id="3、安装HomeBridge"><a href="#3、安装HomeBridge" class="headerlink" title="3、安装HomeBridge"></a>3、安装HomeBridge</h1><h3 id="3-1-安装服务并运行，查看是否正常"><a href="#3-1-安装服务并运行，查看是否正常" class="headerlink" title="3.1 安装服务并运行，查看是否正常"></a>3.1 安装服务并运行，查看是否正常</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g --unsafe-perm homebridge</span><br><span class="line">root@aml:~# homebridge</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-创建config-json"><a href="#3-2-创建config-json" class="headerlink" title="3.2 创建config.json"></a>3.2 创建config.json</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# cd /root/.homebridge/</span><br><span class="line">具体配置见config.json文件</span><br></pre></td></tr></table></figure>
+<h1 id="4、关联小米米家智能设备"><a href="#4、关联小米米家智能设备" class="headerlink" title="4、关联小米米家智能设备"></a>4、关联小米米家智能设备</h1><h3 id="4-1-获取米家智能设备token"><a href="#4-1-获取米家智能设备token" class="headerlink" title="4.1 获取米家智能设备token"></a>4.1 获取米家智能设备token</h3><ul>
+<li>第一步，安装米家app并登录账号（使用5.0.19版本的米家）</li>
+<li>第二步，进入/data/data/com.xiaomi.smarthome/databases/</li>
+<li>第三步，拷贝miio2.db，下载到电脑</li>
+<li>第四步，前往网站<a href="https://miio.loli.ren/indexCN.php" target="_blank" rel="noopener">GetMiio</a>，上传miio2.db，点击提交，即可获得token。</li>
+</ul>
+<h3 id="4-2-安装miio到HomeBridge"><a href="#4-2-安装miio到HomeBridge" class="headerlink" title="4.2 安装miio到HomeBridge"></a>4.2 安装miio到HomeBridge</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g miio@0.14.1</span><br></pre></td></tr></table></figure>
+<p><strong>注：请使用<a href="mailto:miio@0.14.1" target="_blank" rel="noopener">miio@0.14.1</a>版本！</strong></p>
+<h3 id="4-3-接入YeeLight彩光灯泡"><a href="#4-3-接入YeeLight彩光灯泡" class="headerlink" title="4.3 接入YeeLight彩光灯泡"></a>4.3 接入YeeLight彩光灯泡</h3><h4 id="4-3-1-安装插件homebridge-re-yeelight"><a href="#4-3-1-安装插件homebridge-re-yeelight" class="headerlink" title="4.3.1 安装插件homebridge-re-yeelight"></a>4.3.1 安装插件homebridge-re-yeelight</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g homebridge-re-yeelight</span><br></pre></td></tr></table></figure>
+<h4 id="4-3-2-配置config-json文件"><a href="#4-3-2-配置config-json文件" class="headerlink" title="4.3.2 配置config.json文件"></a>4.3.2 配置config.json文件</h4><p>见具体配置文件</p>
+<h3 id="4-4-接入米家智能插座"><a href="#4-4-接入米家智能插座" class="headerlink" title="4.4 接入米家智能插座"></a>4.4 接入米家智能插座</h3><h4 id="4-4-1-安装插件homebridge-mi-outlet"><a href="#4-4-1-安装插件homebridge-mi-outlet" class="headerlink" title="4.4.1 安装插件homebridge-mi-outlet"></a>4.4.1 安装插件homebridge-mi-outlet</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@aml:~# npm install -g homebridge-mi-outlet</span><br></pre></td></tr></table></figure>
+<h4 id="4-4-2-配置config-json文件"><a href="#4-4-2-配置config-json文件" class="headerlink" title="4.4.2 配置config.json文件"></a>4.4.2 配置config.json文件</h4><p>见具体配置文件</p>
+<h1 id="5、启动服务"><a href="#5、启动服务" class="headerlink" title="5、启动服务"></a>5、启动服务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 后台启动</span><br><span class="line">root@aml:~# homebridge &amp;</span><br><span class="line">Ctrl-d断开ssh连接</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 重新连接登录并查看服务是否正常运行中</span><br><span class="line">root@aml:~# ps -aux | grep homebridge</span><br><span class="line">root     17196  2.2  2.5 1196316 48308 ?       Sl   01:55   0:10 homebridge</span><br><span class="line">root     17708  0.0  0.0   4376   628 pts/4    S+   02:03   0:00 grep --color=auto homebridge</span><br></pre></td></tr></table></figure>
+<h1 id="6、添加设备到HomeKit"><a href="#6、添加设备到HomeKit" class="headerlink" title="6、添加设备到HomeKit"></a>6、添加设备到HomeKit</h1><p>第五步运行<code>homebridge &amp;</code>时，服务成功启动之后会出现HomeKit可识别到的二维码。打开iphone或ipad上<strong>家庭app</strong>添加设备，扫描二维码即可。</p>
+<h1 id="7、参考网站致谢"><a href="#7、参考网站致谢" class="headerlink" title="7、参考网站致谢"></a>7、参考网站致谢</h1><p>文章参考：<a href="https://homekit.loli.ren/docs/show/2" target="_blank" rel="noopener">https://homekit.loli.ren/docs/show/2</a> </p>
+<p>miio数据库解析：<a href="https://miio.loli.ren/indexCN.php" target="_blank" rel="noopener">https://miio.loli.ren/indexCN.php</a>  </p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/10/16/homebridge搭建/">展开全文 >></a>
     </p>
     
 
